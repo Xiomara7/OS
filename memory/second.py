@@ -32,24 +32,46 @@ file = open(seqFile, "r")
 cont = file.read()
 data = cont.split(' ')
 
+values = collections.deque()
+
 file.close()
 
 for i in range(0, N):
 	item = page()
 	item.value = data[i]
+	values.append(data[i])
 	item.refer = 1
 	pages.append(item)
+	print 'first 5'
+	print pages[i].value
 
-for i in range(N, len(data)-N):
+for d in data:
 	item = page()
-	item.value = i
-	if item.value in pages: 
-		item.refer = 1
+	item.value = d
+	if item.value in values:
+		print 'NOT PF' 
+		for p in pages: 
+			if p.value == item.value:
+				print 'p value' + p.value
+				print 'item value' + item.value
+				p.refer = 1
+				break
 	else:
 		pfault += 1
-		pages.rotate(-1) 
-		print pages[i].value
-
+		print 'PF'
+		for i in range(0, len(pages)):
+			while pages[i].refer == 1:
+				pages[i].refer = 0
+				pages.rotate(-1)
+				for p in pages: 
+					print p.value
+			if pages[i].refer == 0:
+				pages.rotate(-1)
+				pages.pop()
+				pages.append(item)
+				for p in pages: 
+					print p.value
+				break
 print pfault
 
 
