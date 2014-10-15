@@ -16,18 +16,30 @@
 import sys
 import collections
 
-N = 5 # pages
-
-PMPages = str(sys.argv[1])
-seqFile = str(sys.argv[2])
-pages   = collections.deque()
-pfault  = N
-
+'''
+	Class to define the values that a page has
+'''
 class page:
-	refer = 0
+	refer = 1
 	value = 0
+	modif = 0
 
-print PMPages
+N = 5 # pages
+'''
+	Predefine variables: 
+		PMPages: 
+		seqFile: 
+		Q_pages:  
+		pfaults: 
+'''
+PMPages = str(sys.argv[1]) 
+seqFile = str(sys.argv[2])
+Q_pages = collections.deque()
+pfault  = 0 
+
+''' 
+	Open, Read and Parse the input file
+'''
 file = open(seqFile, "r")
 cont = file.read()
 data = cont.split(' ')
@@ -36,43 +48,51 @@ values = collections.deque()
 
 file.close()
 
-for i in range(0, N):
-	item = page()
-	item.value = data[i]
-	values.append(data[i])
-	item.refer = 1
-	pages.append(item)
-	print 'first 5'
-	print pages[i].value
-
 for d in data:
 	item = page()
 	item.value = d
 	if item.value in values:
 		print 'NOT PF' 
-		for p in pages: 
+		for p in Q_pages: 
 			if p.value == item.value:
 				print 'p value' + p.value
 				print 'item value' + item.value
 				p.refer = 1
-				break
 	else:
 		pfault += 1
 		print 'PF'
-		for i in range(0, len(pages)):
-			while pages[i].refer == 1:
-				pages[i].refer = 0
-				pages.rotate(-1)
-				for p in pages: 
-					print p.value
-			if pages[i].refer == 0:
-				pages.rotate(-1)
-				pages.pop()
-				pages.append(item)
-				for p in pages: 
-					print p.value
-				break
+		if len(Q_pages) < N:
+			print 'len = 0 o < N'
+			Q_pages.append(item)
+			values.append(item.value)
+		elif len(Q_pages) == N:
+			print 'len = N'
+			i = 0
+			while Q_pages[i].refer == 1:
+				Q_pages[i].refer = 0
+				Q_pages.rotate(-1)
+				values.rotate(-1)
+				i += 1 
+				i = i % N
+				print i
+
+			if Q_pages[i].refer == 0:
+				Q_pages.rotate(-1)
+				Q_pages.pop()
+				values.rotate(-1)
+				values.pop()
+				Q_pages.append(item)
+				values.append(item.value)
+
+			for p in Q_pages: 
+				print p.value
+		elif len(Q_pages) > N:
+			print 'esto no puede pasar'
+
 print pfault
+
+def writeToDisk(): 
+	return 0 
 
 
 

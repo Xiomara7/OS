@@ -13,7 +13,9 @@
 #
 ###############################################################################################
 
+import sys
 
-PMPages = str(sys.argv[0])
-seqFile = str(sys.argv[1])
+PMPages = str(sys.argv[1])
+tau = str(sys.argv[2])
+seqFile = str(sys.argv[3])
 
