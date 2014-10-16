@@ -71,7 +71,7 @@ Function to be call everytime an instruction
 needs to be write to the disk [ex - W:3] 
 '''
 def writeToDisk():
-	print 'Write to disk'
+	print 'Write to the disk'
 
 for v in file_content:		# for each element in the input file 
 	item  = pages() 		# item of type 'pages'
