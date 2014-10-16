@@ -73,7 +73,7 @@ for value in file_content:
 	item = pages() 
 	item.value = value
 	item.timer = clock
-	if len(Q_value) < PM_pages: 
+	if len(Q_pages) < PM_pages: 
 		print 'less'
 		print len(Q_pages)
 		if value in Q_pages:
@@ -83,8 +83,8 @@ for value in file_content:
 		else:
 			pfaults += 1
 			Q_pages.append(item)
-			Q_value.append(item.value
-	elif len(Q_pages) == PM_pages: 
+			Q_value.append(item.value)
+	elif len(Q_pages) == PM_pages:
 		print 'equal'
 		print len(Q_pages)
 		if value in Q_value: 
