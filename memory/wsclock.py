@@ -73,35 +73,38 @@ for value in file_content:
 	item = pages() 
 	item.value = value
 	item.timer = clock
-	if len(Q_pages) < PM_pages: 
-		if value in Q_value: 
+	if len(Q_value) < PM_pages: 
+		print 'less'
+		print len(Q_pages)
+		if value in Q_pages:
 			index_value = getIndex(Q_value, value)
 			Q_pages[index_value].refer = 1
 			Q_pages[index_value].timer = clock
 		else:
 			pfaults += 1
 			Q_pages.append(item)
-			Q_value.append(item.value)
-
+			Q_value.append(item.value
 	elif len(Q_pages) == PM_pages: 
+		print 'equal'
+		print len(Q_pages)
 		if value in Q_value: 
 			index_value = getIndex(Q_value, value)
 			Q_pages[index_value].refer = 1
 			Q_pages[index_value].timer = clock
 		else:
 			pfaults += 1
-			for i in range(0, PM_pages):
-				if Q_pages[arrow].refer == 1:
-					Q_pages[arrow].refer = 0
-				else:
-					Q_pages[arrow] = item
-					Q_value[arrow] = item.value
-					# if (clock - Q_pages[arrow].timer) > tau: 
-					# 	Q_pages[arrow] = item
-					# 	Q_value[arrow] = item.value
-				arrow = (arrow + 1) % PM_pages
-				print "arrow"
-				print arrow
+			# for i in range(0, PM_pages):
+			# 	if Q_pages[arrow].refer == 1:
+			# 		Q_pages[arrow].refer = 0
+			# 	else:
+			# 		Q_pages[arrow] = item
+			# 		Q_value[arrow] = item.value
+			# 		if (clock - Q_pages[arrow].timer) > tau: 
+			# 			Q_pages[arrow] = item
+			# 			Q_value[arrow] = item.value
+			# 	arrow = (arrow + 1) % PM_pages
+			# 	print "arrow"
+			# 	print arrow
 	index_content += 1
 	clock += 1
 	for q in Q_pages: 

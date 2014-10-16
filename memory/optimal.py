@@ -27,11 +27,11 @@ class pages:
 	
 '''
 	Predefine variables: 
-		PM_pages: 
-		seq_file: 
-		Q_pages:  
-		Q_value: 
-		pfaults: 
+		PM_pages: Size of the PM
+		seq_file: Input file
+		Q_pages:  PM of type 'pages'
+		Q_value:  queue to manage just the values of the pages
+		pfaults:  count for page faults
 '''
 PM_pages = str(sys.argv[1]) 
 seq_file = str(sys.argv[2])
@@ -46,32 +46,49 @@ file = open(seq_file, "r")
 cont = file.read()
 file.close()
 
+'''
+Split the content of the file by spaces
+'''
 file_content  = cont.split(' ')
 index_content = 0 
 
-def getIndex(queue, element): 
+'''
+Function to get the index of the element in a list
+input: 
+	queue: list
+	elem: element
+return: 
+	index of the element
+'''
+def getIndex(queue, elem): 
 	i = int(0)
 	for q in queue: 
-		if q == element: 
+		if q == elem: 
 			return i
 		i += 1
 
-for value in file_content:
-	item = pages() 
+for value in file_content:	# for each element in the input file 
+	item = pages() 			# item of type 'pages'
 	item.value = value
+	# while the elements in the PM < size of the PM
 	if len(Q_pages) < PM_pages: 
-		if value in Q_value: 
+		if value in Q_value:
+			# If the value is already in, just reference it 
 			index_value = getIndex(Q_value, value)
 			Q_pages[index_value].refer = 1
 		else:
+			# If not, added to the list and increment the page faults
 			pfaults += 1
 			Q_pages.append(item)
 			Q_value.append(item.value)
 	elif len(Q_pages) == PM_pages: 
+		# If the queue is already full
 		if value in Q_value: 
+			# while the elements in the PM < size of the PM
 			index_value = getIndex(Q_value, value)
 			Q_pages[index_value].refer = 1
 		else:
+			# If not, look in the rest of the list, the farthest element
 			pfaults += 1
 			farthest_elem  = 0
 			farthest_index = 0
