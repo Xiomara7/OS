@@ -1,4 +1,4 @@
-Instructions:
+**Instructions:**
 
 Write a simulation of the Optimal Replacement Algorithm, Second Chance Algorithm, 
 and WorkingSetClock Page Replacement Algorithm (WSCPRA) as described in our operating 
@@ -6,7 +6,7 @@ system textbook: Modern Operating Systems by Andrew Tanenbaum.
 
 ---
 
-** optimal.py: **
+**optimal.py:**
 
 Each page contains a reference bit to indicate if it's referenced or not. Also, they 
 contains a modified bit to indicate if it's has been modified. At the moment that a 
@@ -15,7 +15,7 @@ on the next instructions. Other pages may not be referenced until later. The opt
 algorithm says that the farthest page should be removed. 
 
 
-** second.py: **
+**second.py:**
 
 Each page contains a reference bit to indicate if it's referenced or not. Also, they 
 contains a modified bit to indicate if it's has been modified. If the reference bit is 0, 
@@ -24,7 +24,7 @@ the left and the new item will be inserted at the end of the list. If the refere
 1, the bit is cleared, the page is put into the end of the list of pages and the search 
 continues. 
 
-** wsclock.py: ** 
+**wsclock.py:** 
 
 Initially, the list is empty as well in the others. When the first page is loaded, it is 
 added to the list. As more pages are added, they go into the list to form a ring. Each 
