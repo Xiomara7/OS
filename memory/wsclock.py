@@ -16,36 +16,38 @@
 
 import sys
 
-PMPages = str(sys.argv[1])
-tau     = str(sys.argv[2])
-seqFile = str(sys.argv[3])
+PM_pages = str(sys.argv[1]) 
+tau      = str(sys.argv[2])
+seq_file = str(sys.argv[3])
 
 '''
-	Class to define the values that a page has
+Class to define the values that a page has
 '''
 class pages:
 	refer = 1
 	value = 0
 	modif = 0
-	clock = 0
+	timer = 0
+'''
+Predefine variables: 
+	PM_pages: 
+	seq_file: 
+	Q_pages:  
+	Q_value: 
+	pfaults: 
 
-N = 5 # pages
+	clock: 
+	arrow: 
 '''
-	Predefine variables: 
-		PM_pages: 
-		seq_file: 
-		Q_pages:  
-		Q_value: 
-		pfaults: 
-'''
-PM_pages = str(sys.argv[1]) 
-seq_file = str(sys.argv[2])
 Q_pages  = []
 Q_value  = []
 pfaults  = 0 
 
+clock = 0
+arrow = 0 
+
 ''' 
-	Open, Read and Parse the input file
+Open, Read and Parse the input file
 '''
 file = open(seq_file, "r")
 cont = file.read()
@@ -70,20 +72,46 @@ def rotate(list):
 for value in file_content:
 	item = pages() 
 	item.value = value
-	if len(Q_pages) < N: 
+	item.timer = clock
+	if len(Q_pages) < PM_pages: 
 		if value in Q_value: 
 			index_value = getIndex(Q_value, value)
 			Q_pages[index_value].refer = 1
+			Q_pages[index_value].timer = clock
 		else:
 			pfaults += 1
 			Q_pages.append(item)
 			Q_value.append(item.value)
-	elif len(Q_pages) == N: 
+
+	elif len(Q_pages) == PM_pages: 
 		if value in Q_value: 
 			index_value = getIndex(Q_value, value)
 			Q_pages[index_value].refer = 1
+			Q_pages[index_value].timer = clock
 		else:
 			pfaults += 1
+			for i in range(0, PM_pages):
+				if Q_pages[arrow].refer == 1:
+					Q_pages[arrow].refer = 0
+				else:
+					Q_pages[arrow] = item
+					Q_value[arrow] = item.value
+					# if (clock - Q_pages[arrow].timer) > tau: 
+					# 	Q_pages[arrow] = item
+					# 	Q_value[arrow] = item.value
+				arrow = (arrow + 1) % PM_pages
+				print "arrow"
+				print arrow
+	index_content += 1
+	clock += 1
+	for q in Q_pages: 
+		print q.value
+	print '________________________'
+print pfaults
+
+
+
+
 
 
 
