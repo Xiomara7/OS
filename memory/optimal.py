@@ -33,7 +33,7 @@ class pages:
 		Q_value:  queue to manage just the values of the pages
 		pfaults:  count for page faults
 '''
-PM_pages = str(sys.argv[1]) 
+PM_pages = int(sys.argv[1]) 
 seq_file = str(sys.argv[2])
 Q_pages  = collections.deque()
 Q_value  = collections.deque()

@@ -33,8 +33,8 @@ class pages:
 		Q_value:  queue to manage just the values of the pages
 		pfaults:  count for page faults
 '''
-pm_pages = str(sys.argv[1]) 
-seqfile  = str(sys.argv[2])
+pm_pages = int(sys.argv[1])
+seqfile  = sys.argv[2]
 Q_pages  = []
 Q_value  = []
 pfaults  = 0 
@@ -79,12 +79,10 @@ def writeToDisk():
 
 for v in file_content:		# for each element in the input file 
 	value = v.split(':')
-	print 'value'
-	print value
 	item  = pages() 		# item of type 'pages'
 	item.value = value[1]
 	# while the elements in the PM < size of the PM
-	if len(Q_pages) < 5:
+	if len(Q_pages) < pm_pages:
 		if item.value in Q_value: 
 			# If the value is already in, just reference it
 			index_value = getIndex(Q_value, item.value)
@@ -97,7 +95,7 @@ for v in file_content:		# for each element in the input file
 			pfaults += 1
 			Q_pages.append(item)
 			Q_value.append(item.value)
-	elif len(Q_pages) == 5:
+	elif len(Q_pages) == pm_pages:
 		# If the queue is already full
 		if item.value in Q_value:  
 			index_value = getIndex(Q_value, item.value)

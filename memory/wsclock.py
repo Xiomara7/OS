@@ -18,9 +18,9 @@
 
 import sys
 
-PMpages = str(sys.argv[1]) 
-tau     = str(sys.argv[2])
-seqfile = str(sys.argv[3])
+PMpages = int(sys.argv[1])
+tau     = int(sys.argv[2])
+seqfile = sys.argv[3]
 
 '''
 Class to define the values that a page has
@@ -70,7 +70,7 @@ for value in file_content:	# for each element in the input file
 	item.value = value
 	item.timer = clock
 	# while the elements in the PM < size of the PM
-	if len(Q_pages) < 5:
+	if len(Q_pages) < PMpages:
 		print 'less'
 		print len(Q_pages)
 		if value in Q_value:
@@ -85,7 +85,7 @@ for value in file_content:	# for each element in the input file
 			pfaults += 1
 			Q_pages.append(item)
 			Q_value.append(item.value)
-	elif len(Q_pages) == 5:
+	elif len(Q_pages) == PMpages:
 		print 'equal'
 		print len(Q_pages)
 		if value in Q_value: 
@@ -99,7 +99,7 @@ for value in file_content:	# for each element in the input file
 			mintime = Q_pages[arrow].timer
 			changed = False
 
-			while index < 5:
+			while index < PMpages:
 				if Q_pages[arrow].timer < mintime:
 					mintime = index
 				if Q_pages[arrow].refer == 1:
@@ -109,7 +109,7 @@ for value in file_content:	# for each element in the input file
 						Q_pages[arrow] = item
 						Q_value[arrow] = item.value
 						changed = True
-				arrow = (arrow + 1) % 5
+				arrow = (arrow + 1) % PMpages
 				index += 1
 			if changed == False: 
 				Q_pages[mintime] = item
