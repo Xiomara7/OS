@@ -17,8 +17,8 @@ second.py:
 
 Each page contains a reference bit to indicate if it's referenced or not. Also, they 
 contains a modified bit to indicate if it's has been modified. If the reference bit is 0, 
-the page is referenced, so it is replaced immediately. If the reference bit is 1, the bit 
-is cleared, the page is put into the end of the list of pages and the search continues. 
+the page is referenced, so it is replaced immediately. If the reference bit is 1, the 
+bit is cleared, the page is put into the end of the list of pages and the search continues. 
 
 wsclock.py: 
 
