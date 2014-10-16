@@ -38,8 +38,8 @@ Predefine variables:
 	Q_value:  queue to manage just the values of the pages
 	pfaults:  count for page faults 
 
-	clock: 
-	arrow: 
+	clock: Internal actual time
+	arrow: Iterator
 '''
 Q_pages  = [] # physical memory queue [of type 'pages']
 
