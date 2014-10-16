@@ -70,7 +70,7 @@ for value in file_content:	# for each element in the input file
 	item.value = value
 	item.timer = clock
 	# while the elements in the PM < size of the PM
-	if len(Q_pages) < PMpages: 
+	if len(Q_pages) < 5:
 		print 'less'
 		print len(Q_pages)
 		if value in Q_value:
@@ -85,7 +85,7 @@ for value in file_content:	# for each element in the input file
 			pfaults += 1
 			Q_pages.append(item)
 			Q_value.append(item.value)
-	elif len(Q_pages) == PMpages:
+	elif len(Q_pages) == 5:
 		print 'equal'
 		print len(Q_pages)
 		if value in Q_value: 
@@ -95,21 +95,25 @@ for value in file_content:	# for each element in the input file
 			Q_pages[index_value].timer = clock
 		else:
 			pfaults += 1
+			index   = 0
 			mintime = Q_pages[arrow].timer
-			index = 0
+			changed = False
+
 			while index < 5:
 				if Q_pages[arrow].timer < mintime:
-					mintime = Q_pages[arrow].timer 
+					mintime = index
 				if Q_pages[arrow].refer == 1:
 					Q_pages[arrow].refer = 0
-					arrow = (arrow + 1) % 5
 				else: 
 					if (clock - Q_pages[arrow].timer) > tau: 
 						Q_pages[arrow] = item
 						Q_value[arrow] = item.value
-						break
-
+						changed = True
+				arrow = (arrow + 1) % 5
 				index += 1
+			if changed == False: 
+				Q_pages[mintime] = item
+				Q_value[mintime] = item.value
 	index_content += 1
 	clock += 1
 	for q in Q_pages: 
