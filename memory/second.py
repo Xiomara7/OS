@@ -5,7 +5,7 @@
 # Assigment 3: Memory Management
 # Instructor: Jose R. Ortiz Ubarri
 # 
-# Ths project will simulate the second chance algorithm
+# Ths project will simulate the optimal algorithm
 #
 # Objectives:   
 #   Study and implement three page replacement algorithms
@@ -15,12 +15,12 @@
 ###############################################################################################
 
 import sys
-import collections
+import Queue
 
 '''
 	Class to define the values that a page has
 '''
-class page:
+class pages:
 	refer = 1
 	value = 0
 	modif = 0
@@ -28,73 +28,76 @@ class page:
 N = 5 # pages
 '''
 	Predefine variables: 
-		PMPages: 
-		seqFile: 
+		PM_pages: 
+		seq_file: 
 		Q_pages:  
+		Q_value: 
 		pfaults: 
 '''
-PMPages = str(sys.argv[1]) 
-seqFile = str(sys.argv[2])
-Q_pages = collections.deque()
-pfault  = 0 
+PM_pages = str(sys.argv[1]) 
+seq_file = str(sys.argv[2])
+Q_pages  = []
+Q_value  = []
+pfaults  = 0 
 
 ''' 
 	Open, Read and Parse the input file
 '''
-file = open(seqFile, "r")
+file = open(seq_file, "r")
 cont = file.read()
-data = cont.split(' ')
-
-values = collections.deque()
-
 file.close()
 
-for d in data:
-	item = page()
-	item.value = d
-	if item.value in values:
-		print 'NOT PF' 
-		for p in Q_pages: 
-			if p.value == item.value:
-				print 'p value' + p.value
-				print 'item value' + item.value
-				p.refer = 1
-	else:
-		pfault += 1
-		print 'PF'
-		if len(Q_pages) < N:
-			print 'len = 0 o < N'
+file_content  = cont.split(' ')
+index_content = 0 
+
+def getIndex(queue, element): 
+	i = int(0)
+	for q in queue: 
+		if q == element: 
+			return i
+		i += 1
+
+def rotate(list):
+	temp = list[0]
+	for i in range(0, len(list)-1): 
+		list[i] = list[i+1]
+	list[len(list)-1] = temp
+	return list
+
+for value in file_content:
+	item = pages() 
+	item.value = value
+	if len(Q_pages) < N: 
+		if value in Q_value: 
+			index_value = getIndex(Q_value, value)
+			Q_pages[index_value].refer = 1
+		else:
+			pfaults += 1
 			Q_pages.append(item)
-			values.append(item.value)
-		elif len(Q_pages) == N:
-			print 'len = N'
-			i = 0
-			while Q_pages[i].refer == 1:
-				Q_pages[i].refer = 0
-				Q_pages.rotate(-1)
-				values.rotate(-1)
-				i += 1 
-				i = i % N
-
-			if Q_pages[i].refer == 0:
-				Q_pages.rotate(-1)
-				Q_pages.pop()
-				values.rotate(-1)
-				values.pop()
-				Q_pages.append(item)
-				values.append(item.value)
-
-			for p in Q_pages: 
-				print p.value
-		elif len(Q_pages) > N:
-			print 'esto no puede pasar'
-
-print pfault
-
-def writeToDisk(): 
-	return 0 
-
-
-
+			Q_value.append(item.value)
+	elif len(Q_pages) == N: 
+		if value in Q_value: 
+			index_value = getIndex(Q_value, value)
+			Q_pages[index_value].refer = 1
+		else:
+			pfaults += 1
+			for i in range(0, len(Q_pages)):
+				while Q_pages[0].refer == 1:
+					Q_pages[0].refer = 0
+					Q_pages = rotate(Q_pages)
+					Q_value = rotate(Q_value)
+				if Q_pages[0].refer == 0:
+					Q_pages = rotate(Q_pages)
+					Q_value = rotate(Q_value)
+					Q_pages.pop()
+					Q_value.pop()
+					Q_pages.append(item)
+					Q_value.append(item.value)
+					break
+	index_content += 1
+	for q in Q_pages: 
+		print q.value
+	print '________________________'
+print pfaults
 
 
