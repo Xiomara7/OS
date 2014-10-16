@@ -67,26 +67,36 @@ def getIndex(queue, elem):
 			return i
 		i += 1
 
-for value in file_content:	# for each element in the input file 
-	item = pages() 			# item of type 'pages'
-	item.value = value
+def writeToDisk():
+	print 'Write to disk'
+
+for v in file_content:		# for each element in the input file 
+	value = v.split(':')
+	item  = pages() 		# item of type 'pages'
+	item.value = value[1]
 	# while the elements in the PM < size of the PM
-	if len(Q_pages) < PM_pages: 
-		if value in Q_value:
+	if len(Q_pages) < 5:
+		if item.value in Q_value:
 			# If the value is already in, just reference it 
-			index_value = getIndex(Q_value, value)
+			index_value = getIndex(Q_value, item.value)
 			Q_pages[index_value].refer = 1
+			if value[0] == 'W':
+				writeToDisk()
+				Q_pages[index_value].modif = 1
 		else:
 			# If not, added to the list and increment the page faults
 			pfaults += 1
 			Q_pages.append(item)
 			Q_value.append(item.value)
-	elif len(Q_pages) == PM_pages: 
+	elif len(Q_pages) == 5:
 		# If the queue is already full
-		if value in Q_value: 
+		if item.value in Q_value: 
 			# while the elements in the PM < size of the PM
-			index_value = getIndex(Q_value, value)
+			index_value = getIndex(Q_value, item.value)
 			Q_pages[index_value].refer = 1
+			if value[0] == 'W':
+				writeToDisk()
+				Q_pages[index_value].modif = 1
 		else:
 			# If not, look in the rest of the list, the farthest element
 			pfaults += 1

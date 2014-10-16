@@ -27,14 +27,14 @@ class pages:
 
 '''
 	Predefine variables: 
-		PM_pages: Size of the PM
-		seq_file: Input file
+		PMpages:  Size of the PM
+		seqfile:  Input file
 		Q_pages:  PM of type 'pages'
 		Q_value:  queue to manage just the values of the pages
 		pfaults:  count for page faults
 '''
-PM_pages = str(sys.argv[1]) 
-seq_file = str(sys.argv[2])
+pm_pages = str(sys.argv[1]) 
+seqfile  = str(sys.argv[2])
 Q_pages  = []
 Q_value  = []
 pfaults  = 0 
@@ -42,7 +42,7 @@ pfaults  = 0
 ''' 
 	Open, Read and Parse the input file
 '''
-file = open(seq_file, "r")
+file = open(seqfile, "r")
 cont = file.read()
 file.close()
 
@@ -63,7 +63,10 @@ def getIndex(queue, element):
 		if q == element: 
 			return i
 		i += 1
-
+'''
+Function to shift all the elements 
+one place to the left 
+'''
 def rotate(list):
 	temp = list[0]
 	for i in range(0, len(list)-1): 
@@ -71,25 +74,37 @@ def rotate(list):
 	list[len(list)-1] = temp
 	return list
 
-for value in file_content:	# for each element in the input file 
-	item = pages() 			# item of type 'pages'
-	item.value = value
+def writeToDisk():
+	print 'Write to disk'
+
+for v in file_content:		# for each element in the input file 
+	value = v.split(':')
+	print 'value'
+	print value
+	item  = pages() 		# item of type 'pages'
+	item.value = value[1]
 	# while the elements in the PM < size of the PM
-	if len(Q_pages) < PM_pages: 
-		if value in Q_value: 
+	if len(Q_pages) < 5:
+		if item.value in Q_value: 
 			# If the value is already in, just reference it
-			index_value = getIndex(Q_value, value)
+			index_value = getIndex(Q_value, item.value)
 			Q_pages[index_value].refer = 1
+			if value[0] == 'W':
+				writeToDisk()
+				Q_pages[index_value].modif = 1
 		else:
 			#If not, added to the list and increment the page faults
 			pfaults += 1
 			Q_pages.append(item)
 			Q_value.append(item.value)
-	elif len(Q_pages) == PM_pages: 
+	elif len(Q_pages) == 5:
 		# If the queue is already full
-		if value in Q_value:  
-			index_value = getIndex(Q_value, value)
+		if item.value in Q_value:  
+			index_value = getIndex(Q_value, item.value)
 			Q_pages[index_value].refer = 1
+			if value[0] == 'W':
+				writeToDisk()
+				Q_pages[index_value].modif = 1
 		else:
 			pfaults += 1
 			for i in range(0, len(Q_pages)):

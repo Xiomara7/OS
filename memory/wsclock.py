@@ -14,11 +14,13 @@
 #
 ###############################################################################################
 
+# INCOMPLETE!
+
 import sys
 
-PM_pages = str(sys.argv[1]) 
-tau      = str(sys.argv[2])
-seq_file = str(sys.argv[3])
+PMpages = str(sys.argv[1]) 
+tau     = str(sys.argv[2])
+seqfile = str(sys.argv[3])
 
 '''
 Class to define the values that a page has
@@ -30,11 +32,11 @@ class pages:
 	timer = 0
 '''
 Predefine variables: 
-	PM_pages: 
-	seq_file: 
-	Q_pages:  
-	Q_value: 
-	pfaults: 
+	PMpages:  Size of the PM
+	seqfile:  Input file
+	Q_pages:  PM of type 'pages'
+	Q_value:  queue to manage just the values of the pages
+	pfaults:  count for page faults 
 
 	clock: 
 	arrow: 
@@ -49,7 +51,7 @@ arrow = 0
 ''' 
 Open, Read and Parse the input file
 '''
-file = open(seq_file, "r")
+file = open(seqfile, "r")
 cont = file.read()
 file.close()
 
@@ -68,7 +70,7 @@ for value in file_content:	# for each element in the input file
 	item.value = value
 	item.timer = clock
 	# while the elements in the PM < size of the PM
-	if len(Q_pages) < 5: 
+	if len(Q_pages) < PMpages: 
 		print 'less'
 		print len(Q_pages)
 		if value in Q_value:
@@ -83,7 +85,7 @@ for value in file_content:	# for each element in the input file
 			pfaults += 1
 			Q_pages.append(item)
 			Q_value.append(item.value)
-	elif len(Q_pages) == 5:
+	elif len(Q_pages) == PMpages:
 		print 'equal'
 		print len(Q_pages)
 		if value in Q_value: 
@@ -93,18 +95,21 @@ for value in file_content:	# for each element in the input file
 			Q_pages[index_value].timer = clock
 		else:
 			pfaults += 1
-			for i in range(0, 5):
+			mintime = Q_pages[arrow].timer
+			index = 0
+			while index < 5:
+				if Q_pages[arrow].timer < mintime:
+					mintime = Q_pages[arrow].timer 
 				if Q_pages[arrow].refer == 1:
 					Q_pages[arrow].refer = 0
-				else:
-					Q_pages[arrow] = item
-					Q_value[arrow] = item.value
+					arrow = (arrow + 1) % 5
+				else: 
 					if (clock - Q_pages[arrow].timer) > tau: 
 						Q_pages[arrow] = item
 						Q_value[arrow] = item.value
-				arrow = (arrow + 1) % 5
-				print "arrow"
-				print arrow
+						break
+
+				index += 1
 	index_content += 1
 	clock += 1
 	for q in Q_pages: 
