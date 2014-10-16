@@ -2,14 +2,15 @@
 # 801 10 2364
 # CCOM4017: Operative Systems
 #
-# Assigment 2 1: Simple thread creation laboratory excersise.
+# Assigment 3: Memory Management
 # Instructor: Jose R. Ortiz Ubarri
 # 
+# Ths project will simulate the second chance algorithm
+#
 # Objectives:   
-#   Practice threads implementations
-#   Practice inter process communication using sockets and a shared buffer
-#   Identify critical regions
-#   Implementation of mutual exclusion and semaphores
+#   Study and implement three page replacement algorithms
+#	Get familiarized with Memory Management
+#	Implementation of simulation environments
 #
 ###############################################################################################
 
@@ -74,7 +75,6 @@ for d in data:
 				values.rotate(-1)
 				i += 1 
 				i = i % N
-				print i
 
 			if Q_pages[i].refer == 0:
 				Q_pages.rotate(-1)
