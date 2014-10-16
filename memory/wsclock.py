@@ -63,48 +63,48 @@ def getIndex(queue, element):
 			return i
 		i += 1
 
-def rotate(list):
-	temp = list[0]
-	for i in range(0, len(list)-1): 
-		list[i] = list[i+1]
-	list[len(list)-1] = temp
-
-for value in file_content:
-	item = pages() 
+for value in file_content:	# for each element in the input file 
+	item = pages() 			# item of type 'pages'
 	item.value = value
 	item.timer = clock
-	if len(Q_pages) < PM_pages: 
+	# while the elements in the PM < size of the PM
+	if len(Q_pages) < 5: 
 		print 'less'
 		print len(Q_pages)
-		if value in Q_pages:
+		if value in Q_value:
+			# If the value is already in, reference it and actualize 
+			# the time of last use
 			index_value = getIndex(Q_value, value)
 			Q_pages[index_value].refer = 1
 			Q_pages[index_value].timer = clock
 		else:
+			# If not, added to the list, increment the page faults
+			# and actualize the time of last use
 			pfaults += 1
 			Q_pages.append(item)
 			Q_value.append(item.value)
-	elif len(Q_pages) == PM_pages:
+	elif len(Q_pages) == 5:
 		print 'equal'
 		print len(Q_pages)
 		if value in Q_value: 
+			# If the queue is already full
 			index_value = getIndex(Q_value, value)
 			Q_pages[index_value].refer = 1
 			Q_pages[index_value].timer = clock
 		else:
 			pfaults += 1
-			# for i in range(0, PM_pages):
-			# 	if Q_pages[arrow].refer == 1:
-			# 		Q_pages[arrow].refer = 0
-			# 	else:
-			# 		Q_pages[arrow] = item
-			# 		Q_value[arrow] = item.value
-			# 		if (clock - Q_pages[arrow].timer) > tau: 
-			# 			Q_pages[arrow] = item
-			# 			Q_value[arrow] = item.value
-			# 	arrow = (arrow + 1) % PM_pages
-			# 	print "arrow"
-			# 	print arrow
+			for i in range(0, 5):
+				if Q_pages[arrow].refer == 1:
+					Q_pages[arrow].refer = 0
+				else:
+					Q_pages[arrow] = item
+					Q_value[arrow] = item.value
+					if (clock - Q_pages[arrow].timer) > tau: 
+						Q_pages[arrow] = item
+						Q_value[arrow] = item.value
+				arrow = (arrow + 1) % 5
+				print "arrow"
+				print arrow
 	index_content += 1
 	clock += 1
 	for q in Q_pages: 

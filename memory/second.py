@@ -87,21 +87,21 @@ for value in file_content:	# for each element in the input file
 			Q_value.append(item.value)
 	elif len(Q_pages) == PM_pages: 
 		# If the queue is already full
-		if value in Q_value: 
-			# While the reference bit == 1, change it to 0 and 
-			# put it in the end of the list 
+		if value in Q_value:  
 			index_value = getIndex(Q_value, value)
 			Q_pages[index_value].refer = 1
 		else:
-			# If the reference bit == 0, shift all the elements 
-			# to the left and add the new item at the end.
 			pfaults += 1
 			for i in range(0, len(Q_pages)):
+				# While the reference bit == 1, change it to 0 and 
+				# put it in the end of the list
 				while Q_pages[0].refer == 1:
 					Q_pages[0].refer = 0
 					Q_pages = rotate(Q_pages)
 					Q_value = rotate(Q_value)
 				if Q_pages[0].refer == 0:
+					# If the reference bit == 0, shift all the elements 
+					# to the left and add the new item at the end.
 					Q_pages = rotate(Q_pages)
 					Q_value = rotate(Q_value)
 					Q_pages.pop()
