@@ -36,7 +36,7 @@ move to the next item.
 
 *** 
 
-*I discussed the algorithms with my classmates, including Julio de la Cruz and Luis 
-Albertorio*
+**I discussed the algorithms with my classmates, including Julio de la Cruz and Luis 
+Albertorio**
 
 
