@@ -35,8 +35,11 @@ class pages:
 '''
 pm_pages = int(sys.argv[1])
 seqfile  = sys.argv[2]
-Q_pages  = []
-Q_value  = []
+Q_pages  = [] # physical memory queue [of type 'pages']
+
+Q_value  = [] # queue with just the values of the pages
+		      # I'll use it to share and compare the 
+		      # values easily
 pfaults  = 0 
 
 ''' 
@@ -74,47 +77,61 @@ def rotate(list):
 	list[len(list)-1] = temp
 	return list
 
+'''
+Function to be call everytime an instruction
+needs to be write to the disk [ex - W:3] 
+'''
 def writeToDisk():
-	print 'Write to disk'
+	print 'Write to the disk'
 
 for v in file_content:		# for each element in the input file 
-	value = v.split(':')
 	item  = pages() 		# item of type 'pages'
+	value = v.split(':')
 	item.value = value[1]
-	# while the elements in the PM < size of the PM
+	# If the elements in the PM < size of the PM
 	if len(Q_pages) < pm_pages:
+		# If the value is already in, get the index 
+		# and reference the element in that position
 		if item.value in Q_value: 
-			# If the value is already in, just reference it
 			index_value = getIndex(Q_value, item.value)
 			Q_pages[index_value].refer = 1
+			# If it's a write instruction, write it to 
+			# the disk and mark it as modified
 			if value[0] == 'W':
 				writeToDisk()
 				Q_pages[index_value].modif = 1
 		else:
-			#If not, added to the list and increment the page faults
+			# If it's not in the queue, added to the list 
+			# and increment the page faults
 			pfaults += 1
 			Q_pages.append(item)
 			Q_value.append(item.value)
+	# If the queue is already full
 	elif len(Q_pages) == pm_pages:
-		# If the queue is already full
+		# If the value is already in, get the index 
+		# and reference the element in that position 
 		if item.value in Q_value:  
 			index_value = getIndex(Q_value, item.value)
 			Q_pages[index_value].refer = 1
+			# If it's a write instruction, write it to 
+			# the disk and mark it as modified
 			if value[0] == 'W':
 				writeToDisk()
 				Q_pages[index_value].modif = 1
+		# If not, increment the page faults and iterate the list
+		# to do the second chance
 		else:
 			pfaults += 1
+			# While the reference bit == 1, change it to 0 and 
+			# put it in the end of the list
 			for i in range(0, len(Q_pages)):
-				# While the reference bit == 1, change it to 0 and 
-				# put it in the end of the list
 				while Q_pages[0].refer == 1:
 					Q_pages[0].refer = 0
 					Q_pages = rotate(Q_pages)
 					Q_value = rotate(Q_value)
+				# If the reference bit == 0, shift all the elements 
+				# to the left and add the new item at the end.
 				if Q_pages[0].refer == 0:
-					# If the reference bit == 0, shift all the elements 
-					# to the left and add the new item at the end.
 					Q_pages = rotate(Q_pages)
 					Q_value = rotate(Q_value)
 					Q_pages.pop()

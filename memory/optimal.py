@@ -35,8 +35,11 @@ class pages:
 '''
 PM_pages = int(sys.argv[1]) 
 seq_file = str(sys.argv[2])
-Q_pages  = collections.deque()
-Q_value  = collections.deque()
+Q_pages  = collections.deque()	# physical memory queue [of type 'pages']
+
+Q_value  = collections.deque()	# queue with just the values of the pages
+		      					# I'll use it to share and compare the 
+		      					# values easily
 pfaults  = 0 
 
 ''' 
