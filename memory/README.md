@@ -4,6 +4,8 @@ Write a simulation of the Optimal Replacement Algorithm, Second Chance Algorithm
 and WorkingSetClock Page Replacement Algorithm (WSCPRA) as described in our operating 
 system textbook: Modern Operating Systems by Andrew Tanenbaum.
 
+*** 
+
 optimal.py: 
 
 Each page contains a reference bit to indicate if it's referenced or not. Also, they 
@@ -32,7 +34,9 @@ item to remove. If the reference is 0, check if the age is greater than tau. If 
 true, the page is claimed and the new item will be put in there and now the arrow will be 
 move to the next item. 
 
-** I discussed the algorithms with my classmates, including Julio de la Cruz and Luis 
-Albertorio **
+*** 
+
+*I discussed the algorithms with my classmates, including Julio de la Cruz and Luis 
+Albertorio*
 
 
