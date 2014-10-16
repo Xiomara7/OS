@@ -67,7 +67,7 @@ def rotate(list):
 for value in file_content:
 	item = pages() 
 	item.value = value
-	if len(Q_pages) < N: 
+	if len(Q_pages) < PM_pages: 
 		if value in Q_value: 
 			index_value = getIndex(Q_value, value)
 			Q_pages[index_value].refer = 1
@@ -75,7 +75,7 @@ for value in file_content:
 			pfaults += 1
 			Q_pages.append(item)
 			Q_value.append(item.value)
-	elif len(Q_pages) == N: 
+	elif len(Q_pages) == PM_pages: 
 		if value in Q_value: 
 			index_value = getIndex(Q_value, value)
 			Q_pages[index_value].refer = 1

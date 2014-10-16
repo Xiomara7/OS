@@ -27,6 +27,7 @@ class pages:
 	refer = 1
 	value = 0
 	modif = 0
+	clock = 0
 
 N = 5 # pages
 '''
