@@ -75,7 +75,7 @@ for v in file_content:		# for each element in the input file
 	item  = pages() 		# item of type 'pages'
 	item.value = value[1]
 	# while the elements in the PM < size of the PM
-	if len(Q_pages) < 5:
+	if len(Q_pages) < PM_pages:
 		if item.value in Q_value:
 			# If the value is already in, just reference it 
 			index_value = getIndex(Q_value, item.value)
@@ -88,7 +88,7 @@ for v in file_content:		# for each element in the input file
 			pfaults += 1
 			Q_pages.append(item)
 			Q_value.append(item.value)
-	elif len(Q_pages) == 5:
+	elif len(Q_pages) == PM_pages:
 		# If the queue is already full
 		if item.value in Q_value: 
 			# while the elements in the PM < size of the PM
