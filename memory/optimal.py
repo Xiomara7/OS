@@ -61,9 +61,7 @@ for value in file_content:
 	item = pages() 
 	item.value = value
 	if len(Q_pages) < N: 
-		print 'len < N'
 		if value in Q_value: 
-			print 'value is in values 1'
 			index_value = getIndex(Q_value, value)
 			Q_pages[index_value].refer = 1
 		else:
@@ -71,45 +69,27 @@ for value in file_content:
 			Q_pages.append(item)
 			Q_value.append(item.value)
 	elif len(Q_pages) == N: 
-		print 'len == N'
 		if value in Q_value: 
-			print 'value is in values 2'
 			index_value = getIndex(Q_value, value)
 			Q_pages[index_value].refer = 1
 		else:
 			pfaults += 1
-			print 'value is NOT'
 			farthest_elem  = 0
 			farthest_index = 0
 			for page in Q_value:
-				print 'page'
-				print page
 				rest = file_content[index_content:len(file_content)]	# Rest of the original list
-				for r in rest:
-					print r
 				if page not in rest:
 					farthest_elem = page
 					break 
 				elif page in rest:
 					index_value = getIndex(rest, page)
-					print 'index_value'
-					print index_value
 					if index_value > farthest_index: 
 						farthest_elem  = page
 						farthest_index = index_value
-			print 'index'
-			print farthest_index
-			print 'elem'
-			print farthest_elem
 			index = getIndex(Q_value, farthest_elem)
-			print 'index'
-			print index
 			Q_pages[index] = item
 			Q_value[index] = item.value
-	print 'index index_content'
-	print index_content
 	index_content += 1
-
 	for q in Q_pages: 
 		print q.value
 	print '________________________'
